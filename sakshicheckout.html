@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="icon" type="image/x-icon" href="https://i.pinimg.com/736x/6e/35/f9/6e35f904f844bd5707234e637fe1a055.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+    <link href="sakshistyles.css" rel="stylesheet">
+</head>
+<body>
+    <h1>Checkout</h1>
+
+    <div id="stepper" style="max-width: 500px; margin: 10px auto 0; display:flex; justify-content:space-between; font-size: 13px; color: #b08d6f;">
+        <span id="step-label-1" class="step-label active-step">1. Address</span>
+        <span id="step-label-2" class="step-label">2. Payment</span>
+        <span id="step-label-3" class="step-label">3. Place Order</span>
+    </div>
+    <hr>
+
+    <div id="checkout-wrap" style="max-width: 500px; margin: 0 auto; padding: 0 20px 30px;">
+
+        <div id="checkout-empty" style="display:none; text-align:center;">
+            <p style="color: #7d3c4a; font-size: 18px;">Your cart is empty.</p>
+            <a href="sakshiwardrobe.html" style="color: #4a3540;">← Continue shopping</a>
+        </div>
+
+        <!-- STEP 1: ADDRESS -->
+        <div id="step-address" class="checkout-step">
+            <h2 style="color: #6b2d3c; text-align: left; font-size: 1.3rem;">Delivery Address</h2>
+            <form id="address-form">
+                <input type="text" id="full-name" placeholder="Full Name" required>
+                <input type="tel" id="phone" placeholder="Phone Number" required>
+                <input type="text" id="address" placeholder="Address" required>
+                <input type="text" id="city" placeholder="City" required>
+                <input type="text" id="pincode" placeholder="Pincode" required>
+                <button type="submit" class="checkout-btn">Continue to Payment</button>
+            </form>
+        </div>
+
+        <!-- STEP 2: PAYMENT METHOD -->
+        <div id="step-payment" class="checkout-step" style="display:none;">
+            <h2 style="color: #6b2d3c; text-align: left; font-size: 1.3rem;">Payment Method</h2>
+            <form id="payment-form">
+                <label class="payment-option">
+                    <input type="radio" name="payment" value="Cash on Delivery" checked>
+                    <span>💵 Cash on Delivery</span>
+                </label>
+                <label class="payment-option">
+                    <input type="radio" name="payment" value="UPI">
+                    <span>📱 UPI</span>
+                </label>
+                <label class="payment-option">
+                    <input type="radio" name="payment" value="Credit/Debit Card">
+                    <span>💳 Credit / Debit Card</span>
+                </label>
+                <div style="display:flex; gap:10px; margin-top: 15px;">
+                    <button type="button" id="back-to-address" class="checkout-btn secondary">Back</button>
+                    <button type="submit" class="checkout-btn">Review Order</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- STEP 3: REVIEW + PLACE ORDER -->
+        <div id="step-review" class="checkout-step" style="display:none;">
+            <h2 style="color: #6b2d3c; text-align: left; font-size: 1.3rem;">Order Summary</h2>
+            <div id="order-items"></div>
+            <h2 style="color: #4a3540; text-align: right;">Total: ₹<span id="order-total">0</span></h2>
+
+            <div style="text-align:left; background-color:#e8d5c4; outline: 0.1px solid #c9a688; border-radius:4px; padding:12px 16px; margin-top:15px;">
+                <p style="margin:4px 0; color:#4a3540;"><strong>Deliver to:</strong> <span id="review-address"></span></p>
+                <p style="margin:4px 0; color:#4a3540;"><strong>Pay via:</strong> <span id="review-payment"></span></p>
+            </div>
+
+            <div style="display:flex; gap:10px; margin-top: 15px;">
+                <button type="button" id="back-to-payment" class="checkout-btn secondary">Back</button>
+                <button type="button" id="place-order-btn" class="checkout-btn">Place Order</button>
+            </div>
+        </div>
+
+        <!-- CONFIRMATION -->
+        <div id="order-confirmed" style="display:none; text-align:center; padding: 20px;">
+            <h2 style="color: #6b2d3c;">🎉 Order Placed!</h2>
+            <p style="color: #7d3c4a;">Thank you, <span id="confirm-name"></span>! Your order will be delivered to <span id="confirm-address"></span> and paid via <span id="confirm-payment"></span>.</p>
+            <a href="sakshiwardrobe.html" style="color: #4a3540;">← Back to Wardrobe</a>
+        </div>
+
+    </div>
+
+    <style>
+        .step-label {
+            padding-bottom: 6px;
+            border-bottom: 2px solid transparent;
+        }
+        .step-label.active-step {
+            color: #6b2d3c;
+            font-weight: bold;
+            border-bottom: 2px solid #6b2d3c;
+        }
+        #address-form, #payment-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        #address-form input {
+            padding: 10px 14px;
+            border: 1px solid #c9a688;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: inherit;
+            color: #4a3540;
+            background-color: #fff;
+        }
+        #address-form input:focus {
+            outline: 1.5px solid #6b2d3c;
+        }
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            border: 1px solid #c9a688;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #4a3540;
+            background-color: #fff;
+        }
+        .payment-option input {
+            accent-color: #6b2d3c;
+        }
+        .checkout-btn {
+            flex: 1;
+            margin-top: 8px;
+            padding: 12px;
+            background-color: #4a3540;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+        .checkout-btn:hover {
+            background-color: #6b2d3c;
+        }
+        .checkout-btn.secondary {
+            background-color: #c9a688;
+        }
+        .checkout-btn.secondary:hover {
+            background-color: #b08d6f;
+        }
+        .order-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #e8d5c4;
+            outline: 0.1px solid #c9a688;
+            padding: 10px 16px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            text-align: left;
+        }
+        .order-row-name {
+            color: #4a3540;
+            font-weight: bold;
+        }
+        .order-row-price {
+            color: #7d3c4a;
+        }
+    </style>
+
+    <script>
+        function getCart() {
+            return JSON.parse(localStorage.getItem('sakshiCart')) || [];
+        }
+
+        const cart = getCart();
+        let deliveryDetails = {};
+        let paymentMethod = 'Cash on Delivery';
+
+        function showStep(stepId, labelNum) {
+            document.querySelectorAll('.checkout-step').forEach(el => el.style.display = 'none');
+            document.getElementById(stepId).style.display = 'block';
+            document.querySelectorAll('.step-label').forEach(el => el.classList.remove('active-step'));
+            document.getElementById('step-label-' + labelNum).classList.add('active-step');
+        }
+
+        if (cart.length === 0) {
+            document.getElementById('stepper').style.display = 'none';
+            document.getElementById('checkout-empty').style.display = 'block';
+            document.getElementById('step-address').style.display = 'none';
+        } else {
+            // STEP 1 -> STEP 2
+            document.getElementById('address-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                deliveryDetails = {
+                    name: document.getElementById('full-name').value.trim(),
+                    phone: document.getElementById('phone').value.trim(),
+                    address: document.getElementById('address').value.trim(),
+                    city: document.getElementById('city').value.trim(),
+                    pincode: document.getElementById('pincode').value.trim()
+                };
+                showStep('step-payment', 2);
+            });
+
+            document.getElementById('back-to-address').addEventListener('click', function() {
+                showStep('step-address', 1);
+            });
+
+            // STEP 2 -> STEP 3
+            document.getElementById('payment-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+
+                const container = document.getElementById('order-items');
+                container.innerHTML = '';
+                let total = 0;
+                cart.forEach(item => {
+                    total += Number(item.price);
+                    const row = document.createElement('div');
+                    row.className = 'order-row';
+                    row.innerHTML = `
+                        <span class="order-row-name">${item.name}</span>
+                        <span class="order-row-price">₹${item.price}</span>
+                    `;
+                    container.appendChild(row);
+                });
+                document.getElementById('order-total').textContent = total;
+
+                document.getElementById('review-address').textContent =
+                    `${deliveryDetails.name}, ${deliveryDetails.address}, ${deliveryDetails.city} - ${deliveryDetails.pincode} (Ph: ${deliveryDetails.phone})`;
+                document.getElementById('review-payment').textContent = paymentMethod;
+
+                showStep('step-review', 3);
+            });
+
+            document.getElementById('back-to-payment').addEventListener('click', function() {
+                showStep('step-payment', 2);
+            });
+
+            // STEP 3 -> PLACE ORDER
+            document.getElementById('place-order-btn').addEventListener('click', function() {
+                document.getElementById('stepper').style.display = 'none';
+                document.getElementById('step-review').style.display = 'none';
+
+                document.getElementById('confirm-name').textContent = deliveryDetails.name;
+                document.getElementById('confirm-address').textContent =
+                    `${deliveryDetails.address}, ${deliveryDetails.city} - ${deliveryDetails.pincode}`;
+                document.getElementById('confirm-payment').textContent = paymentMethod;
+
+                document.getElementById('order-confirmed').style.display = 'block';
+                localStorage.removeItem('sakshiCart');
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessories</title>
+    <link rel="icon" type="image/x-icon" href="https://i.pinimg.com/736x/6e/35/f9/6e35f904f844bd5707234e637fe1a055.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+    <link href="sakshistyles.css" rel="stylesheet">
+</head>
+<body>
+    <h1>Accessories</h1>
+     <p style="text-align: center; font-size: 18px;">
+        <a href="sakshicart.html" style="color: #4a3540; text-decoration: none;">🛒 Cart: <span id="cart-count">0</span></a>
+    </p>
+    <hr>
+    <div class="products">
+        <div class="product">
+            <p style="text-align: center; background-color: #e8d5c4; outline: 0.1px solid #c9a688;">
+            <img src="https://i.pinimg.com/1200x/11/6c/55/116c558abc129606c436033835bd73a8.jpg" height="250px" alt="Pearl Drop Earrings image">
+            <h3>Pearl Drop Earrings</h3>
+            <p>Price: ₹450</p>
+            <button class="add-to-cart-btn" data-name="Pearl Drop Earrings" data-price="450" onclick="addToCart(this)">Add to Cart</button>
+            </p>
+        </div>
+        <div class="product">
+            <p style="text-align: center; background-color: #e8d5c4; outline: 0.1px solid #c9a688;">
+            <img src="https://i.pinimg.com/736x/5b/5d/4f/5b5d4fd79e27b11b32f4dc4ce0c8bb88.jpg" height="250px" alt="Gold Chain Necklace image">
+            <h3>Gold Chain Necklace</h3>
+            <p>Price: ₹700</p>
+            <button class="add-to-cart-btn" data-name="Gold Chain Necklace" data-price="700" onclick="addToCart(this)">Add to Cart</button>
+            </p>
+        </div>
+        <div class="product">
+            <p style="text-align: center; background-color: #e8d5c4; outline: 0.1px solid #c9a688;">
+            <img src="https://i.pinimg.com/736x/ac/f4/59/acf45962cd6e61a2aad5d02c88040fff.jpg" height="250px" alt="Rose Charm Bracelet image">
+            <h3>Rose Charm Bracelet</h3>
+            <p>Price: ₹350</p>
+            <button class="add-to-cart-btn" data-name="Rose Charm Bracelet" data-price="350" onclick="addToCart(this)">Add to Cart</button>
+            </p>
+        </div>
+        <div class="product">
+            <p style="text-align: center; background-color: #e8d5c4; outline: 0.1px solid #c9a688;">
+            <img src="https://i.pinimg.com/736x/05/14/20/0514208827253d7db95e2b8757bbd9b1.jpg" height="250px" alt="Butterfly Hair Clip image">
+            <h3>Butterfly Hair Clip</h3>
+            <p>Price: ₹200</p>
+            <button class="add-to-cart-btn" data-name="Butterfly Hair Clip" data-price="200" onclick="addToCart(this)">Add to Cart</button>
+            </p>
+        </div>
+        <div class="product">
+            <p style="text-align: center; background-color: #e8d5c4; outline: 0.1px solid #c9a688;">
+            <img src="https://i.pinimg.com/736x/77/b0/2b/77b02b9a4c2b4fe8d734462fb7cf0a5f.jpg" height="250px" alt="Beaded Choker image">
+            <h3>Beaded Choker</h3>
+            <p>Price: ₹300</p>
+            <button class="add-to-cart-btn" data-name="Beaded Choker" data-price="300" onclick="addToCart(this)">Add to Cart</button>
+            </p>
+        </div>
+        <div class="product">
+            <p style="text-align: center; background-color: #e8d5c4; outline: 0.1px solid #c9a688;">
+            <img src="https://i.pinimg.com/736x/8f/ce/c3/8fcec3cd070aeb19216369bd3998b894.jpg" height="250px" alt="Layered Ring Set image">
+            <h3>Layered Ring Set</h3>
+            <p>Price: ₹250</p>
+            <button class="add-to-cart-btn" data-name="Layered Ring Set" data-price="250" onclick="addToCart(this)">Add to Cart</button>
+            </p>
+        </div>
+    </div>
+
+    <style>
+        .add-to-cart-btn {
+            margin-top: 8px;
+            margin-bottom: 10px;
+            padding: 8px 18px;
+            background-color: #c9a688;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .add-to-cart-btn:hover {
+            background-color: #b08d6f;
+        }
+        .add-to-cart-btn.added {
+            background-color: #7fa87f;
+        }
+    </style>
+
+    <script>
+        function getCart() {
+            return JSON.parse(localStorage.getItem('sakshiCart')) || [];
+        }
+        function saveCart(cart) {
+            localStorage.setItem('sakshiCart', JSON.stringify(cart));
+        }
+        function updateCartCount() {
+            document.getElementById('cart-count').textContent = getCart().length;
+        }
+        function addToCart(btn) {
+            const name = btn.getAttribute('data-name');
+            const price = Number(btn.getAttribute('data-price'));
+            const cart = getCart();
+            cart.push({ name, price });
+            saveCart(cart);
+            updateCartCount();
+
+            const originalText = btn.textContent;
+            btn.textContent = 'Added ✓';
+            btn.classList.add('added');
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.classList.remove('added');
+            }, 1000);
+        }
+        updateCartCount();
+    </script>
+</body>
+</html>

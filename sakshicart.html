@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cart</title>
+    <link rel="icon" type="image/x-icon" href="https://i.pinimg.com/736x/6e/35/f9/6e35f904f844bd5707234e637fe1a055.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+    <link href="sakshistyles.css" rel="stylesheet">
+</head>
+<body>
+    <h1>My Cart</h1>
+    <hr>
+
+    <div id="cart-items" style="max-width: 600px; margin: 20px auto;">
+        <!-- items injected here by JS -->
+    </div>
+
+    <div id="cart-empty" style="text-align: center; display: none;">
+        <p style="color: #7d3c4a; font-size: 18px;">Your cart is empty.</p>
+        <a href="sakshiwardrobe.html" style="color: #4a3540;">← Continue shopping</a>
+    </div>
+
+    <div id="cart-summary" style="max-width: 600px; margin: 20px auto; text-align: right;">
+        <h2 style="color: #4a3540;">Total: ₹<span id="cart-total">0</span></h2>
+        <button id="checkout-btn" style="padding: 10px 25px; background-color: #4a3540; color: #fff; border: none; border-radius: 5px; font-size: 15px; cursor: pointer;" onclick="window.location.href='sakshicheckout.html'">Proceed to Checkout</button>
+    </div>
+
+    <style>
+        .cart-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #e8d5c4;
+            outline: 0.1px solid #c9a688;
+            padding: 12px 18px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+        .cart-row-name {
+            color: #4a3540;
+            font-weight: bold;
+        }
+        .cart-row-price {
+            color: #7d3c4a;
+            margin-left: 15px;
+        }
+        .remove-btn {
+            background-color: #c9a688;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 6px 14px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .remove-btn:hover {
+            background-color: #b08d6f;
+        }
+    </style>
+
+    <script>
+        function getCart() {
+            return JSON.parse(localStorage.getItem('sakshiCart')) || [];
+        }
+        function saveCart(cart) {
+            localStorage.setItem('sakshiCart', JSON.stringify(cart));
+        }
+        function removeItem(index) {
+            const cart = getCart();
+            cart.splice(index, 1);
+            saveCart(cart);
+            renderCart();
+        }
+        function renderCart() {
+            const cart = getCart();
+            const container = document.getElementById('cart-items');
+            const emptyMsg = document.getElementById('cart-empty');
+            const summary = document.getElementById('cart-summary');
+            container.innerHTML = '';
+
+            if (cart.length === 0) {
+                emptyMsg.style.display = 'block';
+                summary.style.display = 'none';
+                return;
+            }
+
+            emptyMsg.style.display = 'none';
+            summary.style.display = 'block';
+
+            let total = 0;
+            cart.forEach((item, index) => {
+                total += Number(item.price);
+                const row = document.createElement('div');
+                row.className = 'cart-row';
+                row.innerHTML = `
+                    <span>
+                        <span class="cart-row-name">${item.name}</span>
+                        <span class="cart-row-price">₹${item.price}</span>
+                    </span>
+                    <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+                `;
+                container.appendChild(row);
+            });
+
+            document.getElementById('cart-total').textContent = total;
+        }
+        renderCart();
+    </script>
+</body>
+</html>
